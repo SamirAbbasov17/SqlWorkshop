@@ -1,0 +1,17 @@
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\bin\Debug\net7.0\MainSqlWorkshopProject.exe
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\bin\Debug\net7.0\MainSqlWorkshopProject.deps.json
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\bin\Debug\net7.0\MainSqlWorkshopProject.runtimeconfig.json
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\bin\Debug\net7.0\MainSqlWorkshopProject.dll
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\bin\Debug\net7.0\MainSqlWorkshopProject.pdb
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.AssemblyInfo.cs
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.csproj.CopyComplete
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.dll
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\refint\MainSqlWorkshopProject.dll
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.pdb
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\MainSqlWorkshopProject.genruntimeconfig.cache
+C:\Users\Lenovo\Desktop\Mid Project\MainSqlWorkshopProject\MainSqlWorkshopProject\obj\Debug\net7.0\ref\MainSqlWorkshopProject.dll
