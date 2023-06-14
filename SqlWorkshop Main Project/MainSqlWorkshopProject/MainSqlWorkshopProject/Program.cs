@@ -5,66 +5,93 @@ using System;
 using static MainSqlWorkshopProject.Program;
 using Microsoft.Data.SqlClient;
 using MainSqlWorkshopProject.Models;
+using System.Runtime.InteropServices.Marshalling;
+using System.Text;
+using Azure.Core.GeoJson;
+using System.Runtime.InteropServices;
 
 namespace MainSqlWorkshopProject
 {
     internal partial class Program
     {
-        private const string ConnectionString = "server=localhost,1433;uid=sa;pwd=Pro247!!;TrustServerCertificate=true;database=SqlWorkshop;";
+      
+        private const string ConnectionString = "server=localhost,1434;uid=sa;pwd=Alaska2017;TrustServerCertificate=true;database=SqlWorkshop;";
         HttpClient client = new HttpClient();
 
         static async Task Main(string[] args)
         {
-            Program program = new Program();
-            Dictionary<string, List<object>> allData = await program.GoTodoItems();
-
-            using (SqlConnection connection = new(ConnectionString))
+            while (true)
             {
-                foreach (var data in allData)
+                Console.OutputEncoding = Encoding.UTF8;
+                Program program = new Program();
+                Dictionary<string, List<object>> allData=new();
+                sahi:
+                try
                 {
-                    int i = 0;
-                    foreach (var obj in data.Value)
+                allData = await program.GoTodoItems();
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("error again");
+                     // Task.Delay(150000);
+                    Thread.Sleep(70000); 
+                    goto sahi;
+                }
+
+                using (SqlConnection connection = new(ConnectionString))
+                {
+                    foreach (var data in allData)
                     {
-                        i++;
-                        List<string> dataList = new List<string>();
-                        List<string> dataListValues = new List<string>();
-
-                        foreach (var item in obj.GetType().GetProperties())
+                        int i = 0;
+                        foreach (var obj in data.Value)
                         {
-                            dataList.Add(item.Name);
-                            dataListValues.Add(item.GetValue(obj).ToString());
-                        }
-                        string commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
-                        if (data.Key == "Users")
-                        {
-                            
-                            commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
-                        }
-                       else if(data.Key== "UserPhone")
-                        {
-                            commandText = $"INSERT INTO {data.Key}(Phone,Type) values({dataListValues})";
+                            i++;
+                            List<string> dataList = new List<string>();
+                            List<string> dataListValues = new List<string>();
 
-                        }
-                        else
-                        {
+                            foreach (var item in obj.GetType().GetProperties())
+                            {
+                                dataList.Add(item.Name);
+                                dataListValues.Add(item.GetValue(obj).ToString());
+                            }
+                            string commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
+                            if (data.Key == "Users")
+                            {
 
-                            commandText = $"INSERT INTO  {data.Key} (UserId,{string.Join(",", dataList)}) VALUES({i},{string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
-                        }
-                        // string commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v}'"))})";
-                        //string commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
+                                commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
+                            }
+                            else if (data.Key == "UserPhone")
+                            {
+                                commandText = $"INSERT INTO {data.Key}(Phone,Type) values({dataListValues})";
 
-                        using (SqlCommand command = new(cmdText: commandText, connection: connection))
-                        {
-                            connection.Open();
-                           Console.WriteLine(commandText);
+                            }
+                            else
+                            {
 
-                            command.ExecuteNonQuery();
-                            connection.Close();
+                                commandText = $"INSERT INTO  {data.Key} (UserId,{string.Join(",", dataList)}) VALUES({i},{string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
+                            }
+                            // string commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v}'"))})";
+                            //string commandText = $"INSERT INTO {data.Key} ({string.Join(",", dataList)}) VALUES({string.Join(",", dataListValues.Select(v => int.TryParse(v, out int intValue) ? intValue.ToString() : $"'{v.Replace("'", string.Empty)}'"))})";
+
+                            using (SqlCommand command = new(cmdText: commandText, connection: connection))
+                            {
+                                connection.Open();
+
+                                if (!commandText.Contains("?"))
+                                {
+                                    Console.WriteLine(commandText);
+                                    command.ExecuteNonQuery();
+                                }
+                                connection.Close();
+                            }
+                            SqlCommand cmd = new SqlCommand($"DBCC CHECKIDENT ('{data.Key}', RESEED, 0);", connection);
                         }
-                        SqlCommand cmd=new SqlCommand($"DBCC CHECKIDENT ('{data.Key}', RESEED, 0);", connection);
                     }
                 }
-            }Console.ReadLine();
+                goto sahi;
+            }
+          
         }
 
         private async Task<Dictionary<string, List<object>>> GoTodoItems()
@@ -77,11 +104,12 @@ namespace MainSqlWorkshopProject
             List<object> locationListData = new();
             List<object> pictureListData = new();
             List<object> emailListData = new();
-            string response = await client.GetStringAsync("https://randomuser.me/api?results=1000");
-            var root = JsonConvert.DeserializeObject<Root>(response);
-
-            for (int j = 0; j < 10; j++)
+         
+            for (int j = 0; j < 4; j++)
             {
+                string response = await client.GetStringAsync("https://randomuser.me/api?results=5000");
+                var root = JsonConvert.DeserializeObject<Root>(response);
+
                 foreach (var person in root.results)
                 {
                     var user = new Users
@@ -138,14 +166,16 @@ namespace MainSqlWorkshopProject
                     {
                         Email = person.email
                     };
+                    if (person.nat != "IR")
+                    {
 
-
-                    userListData.Add(user);
-                    loginListData.Add(login);
-                    phoneListData.Add(phone);
-                    pictureListData.Add(picture);
-                    locationListData.Add(location);
-                    emailListData.Add(email);
+                        userListData.Add(user);
+                        loginListData.Add(login);
+                        phoneListData.Add(phone);
+                        pictureListData.Add(picture);
+                        locationListData.Add(location);
+                        emailListData.Add(email);
+                    }
                     
                 }
             }
